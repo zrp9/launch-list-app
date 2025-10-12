@@ -14,6 +14,7 @@ export const paths = {
   faqs: '/faqs',
   comingSoon: '/coming-soon',
   maintenance: '/maintenance',
+  test: '/test',
   features: '/features',
   pricing: '/pricing',
   payment: '/payment',

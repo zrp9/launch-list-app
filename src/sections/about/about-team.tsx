@@ -39,20 +39,20 @@ export function AboutTeam({ sx, ...other }: BoxProps) {
       <Container component={MotionViewport} sx={{ textAlign: 'center', py: { xs: 10, md: 15 } }}>
         <m.div variants={varFade('inDown')}>
           <Typography variant="overline" sx={{ color: 'text.disabled' }}>
-            Dream team
+            Features
           </Typography>
         </m.div>
 
         <m.div variants={varFade('inUp')}>
           <Typography variant="h2" sx={{ my: 3 }}>
-            Great team is the key
+            We manage more so you can manage less
           </Typography>
         </m.div>
 
         <m.div variants={varFade('inUp')}>
           <Typography sx={{ mx: 'auto', maxWidth: 640, color: 'text.secondary' }}>
-            Minimal will provide you support if you have any problems, our support team will reply
-            within a day and we also have detailed documentation.
+            Our goal is to provide real-estate software that lessens the burden of property owners
+            and managers
           </Typography>
         </m.div>
 
@@ -80,7 +80,7 @@ export function AboutTeam({ sx, ...other }: BoxProps) {
           endIcon={<Iconify icon="eva:arrow-ios-forward-fill" width={24} />}
           sx={{ mx: 'auto' }}
         >
-          All members
+          All features
         </Button>
       </Container>
     </Box>

@@ -5,6 +5,7 @@ import { lazy, Suspense } from 'react';
 
 import { MainLayout } from 'src/layouts/main';
 import { SimpleLayout } from 'src/layouts/simple';
+import { DashboardLayout } from 'src/layouts/dashboard';
 
 import { SplashScreen } from 'src/components/loading-screen';
 
@@ -14,6 +15,7 @@ const ComingSoonPage = lazy(() => import('src/pages/coming-soon'));
 const ContactPage = lazy(() => import('src/pages/contact-us'));
 const AboutPage = lazy(() => import('src/pages/about-us'));
 const FeaturePage = lazy(() => import('src/pages/features'));
+const TestPage = lazy(() => import('src/pages/course'));
 const Page500 = lazy(() => import('src/pages/error/500'));
 const Page403 = lazy(() => import('src/pages/error/403'));
 const Page404 = lazy(() => import('src/pages/error/404'));
@@ -32,7 +34,13 @@ export const mainRoutes: RouteObject[] = [
             <Outlet />
           </MainLayout>
         ),
-        children: [{ path: 'contact-us', element: <ContactPage /> }],
+        children: [
+          { path: 'contact-us', element: <ContactPage /> },
+          { path: 'coming-soon', element: <ComingSoonPage /> },
+          { path: 'about-us', element: <AboutPage /> },
+          { path: 'features', element: <FeaturePage /> },
+          { path: 'test', element: <TestPage /> },
+        ],
       },
       // {
       //   path: 'pricing',
@@ -42,31 +50,6 @@ export const mainRoutes: RouteObject[] = [
       //     </SimpleLayout>
       //   ),
       // },
-      {
-        path: 'coming-soon',
-        element: (
-          <SimpleLayout slotProps={{ content: { compact: true } }}>
-            <ComingSoonPage />
-          </SimpleLayout>
-        ),
-      },
-      {
-        path: 'about-us',
-        element: (
-          <SimpleLayout slotProps={{ content: { compact: true } }}>
-            <AboutPage />
-          </SimpleLayout>
-        ),
-      },
-
-      {
-        path: 'features',
-        element: (
-          <SimpleLayout slotProps={{ content: { compact: true } }}>
-            <FeaturePage />
-          </SimpleLayout>
-        ),
-      },
 
       {
         path: 'error',
