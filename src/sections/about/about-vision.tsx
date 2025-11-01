@@ -103,7 +103,6 @@ export function AboutVision({ sx, ...other }: BoxProps) {
           }}
         >
           {renderImage()}
-          {renderLogos()}
 
           <Fab sx={{ position: 'absolute', zIndex: 9 }}>
             <Iconify icon="solar:play-broken" width={24} />
@@ -116,7 +115,8 @@ export function AboutVision({ sx, ...other }: BoxProps) {
           variant="h3"
           sx={{ textAlign: 'center', maxWidth: 800, mx: 'auto' }}
         >
-          Our vision offering the best product nulla vehicula tortor scelerisque ultrices malesuada.
+          At Lessor, our goal is simple: Empower small landlords and tradespeople with
+          professional-grade tools that don’t require an accounting degree or IT team.
         </Typography>
       </Container>
     </Box>

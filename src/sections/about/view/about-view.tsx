@@ -1,7 +1,8 @@
 import { AboutHero } from '../about-hero';
 import { AboutWhat } from '../about-what';
-import { AboutTeam } from '../about-team';
-import { AboutVision } from '../about-vision';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as aboutVision from '../about-vision';
+import { AboutFeatures } from '../about-features';
 import { AboutTestimonials } from '../about-testimonials';
 
 // ----------------------------------------------------------------------
@@ -13,10 +14,9 @@ export function AboutView() {
 
       <AboutWhat />
 
-      <AboutVision />
+      <aboutVision.AboutVision />
 
-      <AboutTeam />
-
+      <AboutFeatures />
       <AboutTestimonials />
     </>
   );

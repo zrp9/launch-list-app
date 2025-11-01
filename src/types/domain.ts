@@ -1,5 +1,5 @@
 type User = {
-  id: string;
+  id?: string;
   email: string; // vchar 150
   username: string; // vchar 150
   phone: string; // varchar 12
@@ -26,6 +26,19 @@ type Feature = {
   title: string; // vchar150
   name: string; // vchar150
   details: string; // text
+  img:
+    | 'taxes'
+    | 'appointments'
+    | 'docstorage'
+    | 'documents'
+    | 'expensetracking'
+    | 'expensetracking2'
+    | 'expenses'
+    | 'ledger'
+    | 'maintenance'
+    | 'services'
+    | 'webpage'
+    | 'bidding';
   quickDescription: string; // text
 };
 
@@ -35,6 +48,19 @@ type Survey = {
   version: string; // vchar 75
   name: string; // vchar 255
   active: boolean;
+};
+
+type Testimonial = {
+  id: string;
+  name: string;
+  role: string;
+  rating: number;
+  title: string;
+  quote: string;
+  avatar?: string;
+  date: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 type SurveyQuestion = {

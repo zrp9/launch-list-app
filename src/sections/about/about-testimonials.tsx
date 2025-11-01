@@ -1,5 +1,4 @@
 import type { BoxProps } from '@mui/material/Box';
-import type { IDateValue } from 'src/types/common';
 
 import { m } from 'framer-motion';
 import { varAlpha } from 'minimal-shared/utils';
@@ -16,15 +15,15 @@ import ListItemText from '@mui/material/ListItemText';
 
 import { fDate } from 'src/utils/format-time';
 
-import { _testimonials } from 'src/_mock';
+import { _mock } from 'src/_mock';
 import { CONFIG } from 'src/global-config';
+import { useTestimonials } from 'src/stores/testimonial-store';
 
 import { Iconify } from 'src/components/iconify';
 import { varFade, MotionViewport } from 'src/components/animate';
 
-// ----------------------------------------------------------------------
-
 export function AboutTestimonials({ sx, ...other }: BoxProps) {
+  const testimonials = useTestimonials((s) => s.testimonials);
   const renderLink = () => (
     <Button color="primary" endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}>
       Read more
@@ -41,16 +40,16 @@ export function AboutTestimonials({ sx, ...other }: BoxProps) {
 
       <m.div variants={varFade('inUp')}>
         <Typography variant="h2" sx={{ my: 3, color: 'common.white' }}>
-          Who love <br />
-          my work
+          Our Vision <br />
         </Typography>
       </m.div>
 
       <m.div variants={varFade('inUp')}>
         <Typography sx={{ color: 'common.white' }}>
-          Our goal is to create a product and service that you’re satisfied with and use it every
-          day. This is why we’re constantly working on our services to make it better every day and
-          really listen to what our users has to say.
+          We believe independent property owners and builders deserve the same level of insight and
+          automation that big companies enjoy — without the high costs or complexity. Lessor exists
+          to simplify your workflow, help you make smarter financial decisions, and put every
+          dollar, document, and detail right at your fingertips.
         </Typography>
       </m.div>
 
@@ -76,9 +75,9 @@ export function AboutTestimonials({ sx, ...other }: BoxProps) {
       ]}
     >
       <Masonry spacing={3} columns={{ xs: 1, md: 2 }} sx={{ ml: 0 }}>
-        {_testimonials.map((testimonial) => (
+        {testimonials?.map((testimonial, index) => (
           <m.div key={testimonial.name} variants={varFade('inUp')}>
-            <TestimonialItem testimonial={testimonial} />
+            <TestimonialItem testimonial={testimonial} index={index} />
           </m.div>
         ))}
       </Masonry>
@@ -136,16 +135,11 @@ export function AboutTestimonials({ sx, ...other }: BoxProps) {
 // ----------------------------------------------------------------------
 
 type TestimonialItemProps = BoxProps & {
-  testimonial: {
-    name: string;
-    content: string;
-    avatarUrl: string;
-    ratingNumber: number;
-    postedDate: IDateValue;
-  };
+  testimonial: Testimonial;
+  index: number;
 };
 
-function TestimonialItem({ testimonial, sx, ...other }: TestimonialItemProps) {
+function TestimonialItem({ testimonial, index, sx, ...other }: TestimonialItemProps) {
   return (
     <Box
       sx={[
@@ -164,16 +158,16 @@ function TestimonialItem({ testimonial, sx, ...other }: TestimonialItemProps) {
     >
       <Iconify icon="mingcute:quote-left-fill" width={40} sx={{ opacity: 0.48 }} />
 
-      <Typography variant="body2">{testimonial.content}</Typography>
+      <Typography variant="body2">{testimonial.quote}</Typography>
 
-      <Rating value={testimonial.ratingNumber} readOnly size="small" />
+      <Rating value={testimonial.rating} readOnly size="small" />
 
       <Box sx={{ gap: 2, display: 'flex' }}>
-        <Avatar alt={testimonial.name} src={testimonial.avatarUrl} />
+        <Avatar alt={testimonial.name} src={_mock.image.avatar(index)} />
 
         <ListItemText
           primary={testimonial.name}
-          secondary={fDate(testimonial.postedDate)}
+          secondary={fDate(testimonial.date)}
           slotProps={{
             secondary: {
               sx: {

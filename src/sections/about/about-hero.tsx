@@ -59,8 +59,8 @@ export function AboutHero({ sx, ...other }: BoxProps) {
               variant="h4"
               sx={{ mt: 3, color: 'common.white', fontWeight: 'fontWeightSemiBold' }}
             >
-              Let&apos;s work together and
-              <br /> make awesome site easily
+              We manage more
+              <br /> so you can manage less
             </Typography>
           </m.div>
         </Box>

@@ -8,9 +8,11 @@ const MOCK_TITLE = _postTitles[2];
 const ROOTS = {
   AUTH: '/auth',
   DASHBOARD: '/dashboard',
+  Main: '/coming-soon',
 };
 
 export const paths = {
+  root: '/',
   faqs: '/faqs',
   comingSoon: '/coming-soon',
   maintenance: '/maintenance',

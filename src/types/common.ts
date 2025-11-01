@@ -29,3 +29,5 @@ export type ISocialLink = {
   linkedin: string;
   instagram: string;
 };
+
+export type StoreStatus = 'idle' | 'loading' | 'success' | 'error';

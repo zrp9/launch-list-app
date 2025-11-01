@@ -32,9 +32,10 @@ export type ConfigValue = {
 // ----------------------------------------------------------------------
 
 export const CONFIG: ConfigValue = {
-  appName: 'Minimal UI',
+  appName: 'Launch List',
   appVersion: packageJson.version,
-  serverUrl: import.meta.env.VITE_SERVER_URL ?? '',
+  //serverUrl: import.meta.env.VITE_SERVER_URL ?? '', // VITE_SERVER_API_URL
+  serverUrl: import.meta.env.VITE_SERVER_API_URL,
   assetsDir: import.meta.env.VITE_ASSETS_DIR ?? '',
   /**
    * Auth
@@ -42,8 +43,10 @@ export const CONFIG: ConfigValue = {
    */
   auth: {
     method: 'jwt',
-    skip: false,
-    redirectPath: paths.dashboard.root,
+    skip: true,
+    //redirectPath: paths.dashboard.root,
+    // right now when going to / will be redirect to coming-soon
+    redirectPath: paths.root,
   },
   /**
    * Mapbox

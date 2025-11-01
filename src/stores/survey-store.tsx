@@ -1,22 +1,50 @@
 import type { ReactNode } from 'react';
+import type { StoreStatus } from 'src/types/common';
 
 import { create, useStore } from 'zustand';
 import { useState, useContext, createContext } from 'react';
 
+import { getSurvey } from 'src/actions/survey';
+
 interface SurveyActions {
-  setSurvey: (survey: Survey) => void;
+  loadOnce: () => Promise<void>;
+  refresh: () => Promise<void>;
 }
 
 interface SurveyStore {
   survey: Survey | null;
+  status: StoreStatus;
   actions: SurveyActions;
 }
 
 const createSurveyStore = () =>
-  create<SurveyStore>()((set) => ({
+  create<SurveyStore>()((set, get) => ({
     survey: null,
+    status: 'idle',
     actions: {
-      setSurvey: (surv: Survey) => set(() => ({ survey: surv })),
+      async loadOnce() {
+        const { status, survey } = get();
+        if (status === 'success' && survey) return;
+
+        set({ status: 'loading' });
+        try {
+          const data = await getSurvey();
+          set({ survey: data, status: 'success' });
+        } catch (err) {
+          set({ status: 'error' });
+          throw err;
+        }
+      },
+      async refresh() {
+        set({ status: 'loading' });
+        try {
+          const data = await getSurvey();
+          set({ survey: data, status: 'success' });
+        } catch (err) {
+          set({ status: 'error' });
+          throw err;
+        }
+      },
     },
   }));
 

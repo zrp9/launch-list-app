@@ -57,6 +57,23 @@ export const fetcher = async <T = unknown>(
 // ----------------------------------------------------------------------
 
 export const endpoints = {
+  feature: {
+    list: 'api/v1/features',
+  },
+  survey: {
+    fetch: '/api/v1/survey',
+    respond: '/api/v1/survey/respond/',
+  },
+  testimonial: {
+    list: '/api/v1/testimonials',
+  },
+  user: {
+    subscribe: '/api/v1/user/subscribe',
+    quePosition: '/api/v1/user/position/',
+    refered: '/api/v1/user/refered/',
+    referLink: '/api/v1/user/rlink/',
+    delete: '/api/v1/user',
+  },
   chat: '/api/chat',
   kanban: '/api/kanban',
   calendar: '/api/calendar',

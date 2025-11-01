@@ -5,7 +5,6 @@ import { lazy, Suspense } from 'react';
 
 import { MainLayout } from 'src/layouts/main';
 import { SimpleLayout } from 'src/layouts/simple';
-import { DashboardLayout } from 'src/layouts/dashboard';
 
 import { SplashScreen } from 'src/components/loading-screen';
 
@@ -36,11 +35,19 @@ export const mainRoutes: RouteObject[] = [
         ),
         children: [
           { path: 'contact-us', element: <ContactPage /> },
-          { path: 'coming-soon', element: <ComingSoonPage /> },
+          //{ path: 'coming-soon', element: <ComingSoonPage /> },
           { path: 'about-us', element: <AboutPage /> },
           { path: 'features', element: <FeaturePage /> },
           { path: 'test', element: <TestPage /> },
         ],
+      },
+      {
+        path: 'coming-soon',
+        element: (
+          <SimpleLayout slotProps={{ content: { compact: true } }}>
+            <ComingSoonPage />
+          </SimpleLayout>
+        ),
       },
       // {
       //   path: 'pricing',

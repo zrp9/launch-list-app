@@ -74,7 +74,7 @@ export function AboutWhat({ sx, ...other }: BoxProps) {
 
           <Grid size={{ xs: 12, md: 6, lg: 5 }}>
             <Typography component={m.h2} variants={varFade('inRight')} variant="h2" sx={{ mb: 3 }}>
-              What is Minimal?
+              What is Alessor?
             </Typography>
 
             <Typography
@@ -89,10 +89,13 @@ export function AboutWhat({ sx, ...other }: BoxProps) {
                 }),
               ]}
             >
-              Our theme is the most advanced and user-friendly theme you will find on the market, we
-              have documentation and video to help set your site really easily, pre-installed demos
-              you can import in one click and everything from the theme options to page content can
-              be edited from the front-end. This is the theme you are looking for.
+              Lessor is an all-in-one platform designed for independent landlords, small property
+              managers, and local restoration companies. Whether you own a few rentals or run
+              maintenance jobs on the side, Lessor brings every part of your operation together —
+              from tenant payments and tax tracking to AI-powered bidding and job management. It’s
+              not another bloated property management app. Lessor is built to be practical, fast,
+              and easy to use, giving you clear numbers, accurate estimates, and more time to focus
+              on the work that actually makes you money.
             </Typography>
 
             <Box

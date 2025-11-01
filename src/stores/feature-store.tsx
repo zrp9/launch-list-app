@@ -1,21 +1,51 @@
 import type { ReactNode } from 'react';
+import type { StoreStatus } from 'src/types/common';
 
 // use this to pullout entire feature object in consumer import { useShallow } from 'zustand/shallow'
 import { create, useStore } from 'zustand';
 import { useState, useContext, createContext } from 'react';
 
+import { getFeatures } from 'src/actions/features';
+
 type FeatureActions = {
-  setFeatures: (features: Feature[]) => void;
+  loadOnce: () => Promise<void>;
+  refresh: () => Promise<void>;
 };
 
-type FeatureStoreState = { features: Feature[] };
-type FeatureStore = FeatureStoreState & FeatureActions;
+interface FeatureStore {
+  features: Feature[];
+  status: StoreStatus;
+  actions: FeatureActions;
+}
 
 const createFeatureStore = () =>
-  create<FeatureStore>()((set) => ({
+  create<FeatureStore>()((set, get) => ({
     features: [],
+    status: 'idle',
     actions: {
-      setFeatures: (feats: Feature[]) => set(() => ({ features: feats })),
+      async loadOnce() {
+        const { status, features } = get();
+        if (status === 'success' && features.length) return;
+
+        set({ status: 'loading' });
+        try {
+          const data = await getFeatures(1, 10);
+          set({ features: data, status: 'success' });
+        } catch (err) {
+          set({ status: 'error' });
+          throw err;
+        }
+      },
+      async refresh() {
+        set({ status: 'loading' });
+        try {
+          const data = await getFeatures(1, 10);
+          set({ features: data, status: 'success' });
+        } catch (err) {
+          set({ status: 'error' });
+          throw err;
+        }
+      },
     },
   }));
 

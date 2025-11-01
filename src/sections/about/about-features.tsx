@@ -13,7 +13,8 @@ import Typography from '@mui/material/Typography';
 import { useRouter } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/global-config';
-import { _carouselsMembers } from 'src/_mock';
+import { getFeatureImages } from 'src/lib/utils';
+import { useFeatures } from 'src/stores/feature-store';
 import { ArrowUpIcon } from 'src/theme/core/components/mui-x-data-grid';
 
 import { Image } from 'src/components/image';
@@ -23,10 +24,9 @@ import { varFade, MotionViewport } from 'src/components/animate';
 import { RotateButton } from 'src/components/rotate-button/RotateButton';
 import { Carousel, useCarousel, CarouselArrowFloatButtons } from 'src/components/carousel';
 
-// ----------------------------------------------------------------------
-
-export function AboutTeam({ sx, ...other }: BoxProps) {
+export function AboutFeatures({ sx, ...other }: BoxProps) {
   const router = useRouter();
+  const features = useFeatures((state) => state.features);
   const carousel = useCarousel({
     align: 'start',
     slideSpacing: '24px',
@@ -53,14 +53,15 @@ export function AboutTeam({ sx, ...other }: BoxProps) {
 
         <m.div variants={varFade('inUp')}>
           <Typography variant="h2" sx={{ my: 3 }}>
-            We manage more so you can manage less
+            Lessor — Simple property and project management for landlords who do it all.
           </Typography>
         </m.div>
 
         <m.div variants={varFade('inUp')}>
           <Typography sx={{ mx: 'auto', maxWidth: 640, color: 'text.secondary' }}>
-            Our goal is to provide real-estate software that lessens the burden of property owners
-            and managers
+            A lightweight platform built for small landlords and restoration pros who manage rentals
+            and get their hands dirty. Track expenses, create bids, collect rent, and handle taxes —
+            all in one place.
           </Typography>
         </m.div>
 
@@ -68,14 +69,14 @@ export function AboutTeam({ sx, ...other }: BoxProps) {
           <CarouselArrowFloatButtons {...carousel.arrows} options={carousel.options} />
 
           <Carousel carousel={carousel} sx={{ px: 0.5 }}>
-            {_carouselsMembers.map((member) => (
+            {features.map((feat, index) => (
               <Box
-                key={member.id}
+                key={feat.id}
                 component={m.div}
                 variants={varFade('in')}
                 sx={{ py: { xs: 8, md: 10 } }}
               >
-                <MemberCard member={member} />
+                <FeatureCard feature={feat} index={index} />
               </Box>
             ))}
           </Carousel>
@@ -98,39 +99,28 @@ export function AboutTeam({ sx, ...other }: BoxProps) {
 
 // ----------------------------------------------------------------------
 
-type MemberCardProps = {
-  member: (typeof _carouselsMembers)[number];
+type FeatureCardProps = {
+  feature: Feature;
+  index: number;
 };
 
-function MemberCard({ member }: MemberCardProps) {
+function FeatureCard({ feature, index }: FeatureCardProps) {
   const expanded = useBoolean(false);
-  // maybe pass icon/color in
+  // maybe pass icon and color in
   const icon = `${CONFIG.assetsDir}/assets/icons/courses/ic-courses-certificates.svg`;
   return (
     <Card>
       <Typography variant="subtitle1" sx={{ mt: 2.5, mb: 0.5 }}>
-        {member.name}
+        {feature.name}
       </Typography>
 
       <Typography variant="body2" sx={{ mb: 2.5, color: 'text.secondary' }}>
-        {member.role}
+        {feature.title}
       </Typography>
 
       <Typography variant="body2" sx={{ mb: 2.5, color: 'text.secondary' }}>
-        The quick description of the feature
+        {feature.quickDescription}
       </Typography>
-
-      <SvgColor
-        src={icon}
-        sx={(theme) => ({
-          top: 24,
-          right: 20,
-          width: 36,
-          height: 36,
-          position: 'absolute',
-          background: `linear-gradient(135deg, ${theme.vars.palette['warning'].main} 0%, ${theme.vars.palette['warning'].dark} 100%)`,
-        })}
-      />
 
       <Box
         sx={(theme) => ({
@@ -149,7 +139,12 @@ function MemberCard({ member }: MemberCardProps) {
 
       <Box sx={{ px: 1 }}>
         <Collapse in={expanded.value} timeout="auto" unmountOnExit>
-          <Image alt={member.name} src={member.avatarUrl} ratio="1/1" sx={{ borderRadius: 2 }} />
+          <Image
+            alt={feature.name}
+            src={getFeatureImages(feature.img)}
+            ratio="1/1"
+            sx={{ borderRadius: 2 }}
+          />
         </Collapse>
       </Box>
 
@@ -158,8 +153,7 @@ function MemberCard({ member }: MemberCardProps) {
           p: 2,
           display: 'flex',
           alignItems: 'center',
-          justifyItems: 'right',
-          justifyContent: 'right',
+          justifyContent: 'center',
         }}
       >
         <Button onClick={() => expanded.onToggle()}>Learn More</Button>

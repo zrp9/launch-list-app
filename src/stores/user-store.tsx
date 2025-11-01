@@ -1,20 +1,48 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import type { ReactNode } from 'react';
+import type { StoreStatus } from 'src/types/common';
+
 import { create, useStore } from 'zustand';
+import { useState, useContext, createContext } from 'react';
+
+import { getQuePosition } from 'src/actions/user';
 
 interface UserActions {
-  setUser: (user: User) => void;
+  getQuePosition: (email: string) => Promise<void>;
+  refresh: () => Promise<void>;
 }
 
 interface UserStore {
-  user: User | null;
+  user: Partial<User> | null;
+  status: StoreStatus;
   actions: UserActions;
 }
 
 const createUserStore = () =>
-  create<UserStore>()((set) => ({
+  create<UserStore>()((set, get) => ({
     user: null,
+    status: 'idle',
     actions: {
-      setUser: (usr: User) => set(() => ({ user: usr })),
+      async getQuePosition(email: string) {
+        const { status, user } = get();
+        if (status === 'success' && user) return;
+
+        set({ status: 'loading' });
+        try {
+          const data = await getQuePosition(email);
+          set((state) => ({
+            ...state,
+            user: {
+              ...state.user,
+              quePosition: data,
+            },
+            status: 'success',
+          }));
+        } catch (err) {
+          set({ status: 'error' });
+          throw err;
+        }
+      },
+      async refresh() {},
     },
   }));
 
