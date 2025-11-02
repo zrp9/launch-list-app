@@ -4,7 +4,7 @@ import type { StoreStatus } from 'src/types/common';
 import { create, useStore } from 'zustand';
 import { useState, useContext, createContext } from 'react';
 
-import { getSurvey } from 'src/actions/survey';
+import { getSurvey } from 'src/api/survey';
 
 interface SurveyActions {
   loadOnce: () => Promise<void>;

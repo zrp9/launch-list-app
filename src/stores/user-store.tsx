@@ -4,7 +4,7 @@ import type { StoreStatus } from 'src/types/common';
 import { create, useStore } from 'zustand';
 import { useState, useContext, createContext } from 'react';
 
-import { getQuePosition } from 'src/actions/user';
+import { getQuePosition } from 'src/api/user';
 
 interface UserActions {
   getQuePosition: (email: string) => Promise<void>;

@@ -4,7 +4,7 @@ import type { StoreStatus } from 'src/types/common';
 import { create, useStore } from 'zustand';
 import { useState, useContext, createContext } from 'react';
 
-import { getTestimonials } from 'src/actions/testimonials';
+import { getTestimonials } from 'src/api/testimonials';
 
 type TestimonialActions = {
   loadOnce: () => Promise<void>;

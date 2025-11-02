@@ -5,7 +5,7 @@ import type { StoreStatus } from 'src/types/common';
 import { create, useStore } from 'zustand';
 import { useState, useContext, createContext } from 'react';
 
-import { getFeatures } from 'src/actions/features';
+import { getFeatures } from 'src/api/features';
 
 type FeatureActions = {
   loadOnce: () => Promise<void>;
