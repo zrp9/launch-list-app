@@ -14,6 +14,7 @@ const ComingSoonPage = lazy(() => import('src/pages/coming-soon'));
 const ContactPage = lazy(() => import('src/pages/contact-us'));
 const AboutPage = lazy(() => import('src/pages/about-us'));
 const FeaturePage = lazy(() => import('src/pages/features'));
+const SurveyPage = lazy(() => import('src/pages/survey'));
 const TestPage = lazy(() => import('src/pages/course'));
 const Page500 = lazy(() => import('src/pages/error/500'));
 const Page403 = lazy(() => import('src/pages/error/403'));
@@ -35,9 +36,10 @@ export const mainRoutes: RouteObject[] = [
         ),
         children: [
           { path: 'contact-us', element: <ContactPage /> },
-          //{ path: 'coming-soon', element: <ComingSoonPage /> },
+          { path: 'coming-soon', element: <ComingSoonPage /> },
           { path: 'about-us', element: <AboutPage /> },
           { path: 'features', element: <FeaturePage /> },
+          { path: 'survey', element: <SurveyPage /> },
           { path: 'test', element: <TestPage /> },
         ],
       },

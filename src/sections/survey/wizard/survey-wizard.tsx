@@ -1,20 +1,10 @@
+import react from 'react';
 import { useSnackbar } from 'notistack';
-import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useBoolean } from 'minimal-shared/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import {
-  Card,
-  Stack,
-  Button,
-  Divider,
-  Container,
-  CardHeader,
-  Typography,
-  CardActions,
-  CardContent,
-} from '@mui/material';
+import * as material from '@mui/material';
 
 import { anwserSurvey } from 'src/api/survey';
 
@@ -33,24 +23,29 @@ export function SurveyWizard({ survey }: { survey: Survey }) {
   });
   const { trigger, handleSubmit, getValues } = methods;
   const steps = makeSteps(survey);
-  const [active, setActive] = useState(0);
+  const [active, setActive] = react.useState(0);
   const isLoading = useBoolean(false);
   const { enqueueSnackbar } = useSnackbar();
+  const [error, setError] = react.useState<string | null>(null);
   const onNext = async () => {
     const ok = await trigger(steps[active].questionIds as any, { shouldFocus: true });
     if (ok) setActive((i) => Math.min(i + 1, steps.length - 1));
   };
   const onBack = () => setActive((i) => Math.max(i - 1, 0));
+  const isStepFailed = (step: number) => /* do some form check*/ step === 3;
+  const onReset = () => setActive(0);
   const onSubmit = handleSubmit(async (vals) => {
     const anwsers = toAnwsers(vals, questionMap);
     isLoading.setValue(true);
     // send to api
     try {
-      // username is user email just withut domain
-
+      // username is user email just without domain
       await anwserSurvey(getValues('email'), anwsers)
         .then((res) => {
           // show a thank you card
+          if (res) {
+            enqueueSnackbar('Thank you for filling out our survye', { variant: 'success' });
+          }
         })
         .finally(() => isLoading.setValue(false));
     } catch (err: any) {
@@ -59,38 +54,83 @@ export function SurveyWizard({ survey }: { survey: Survey }) {
       });
     }
   });
-  const questionMap = useMemo(
+  const questionMap = react.useMemo(
     () => new Map(survey.questions.map((q) => [q.id, q] as const)),
     [survey.questions]
   );
 
   return (
-    <Container maxWidth="md" sx={{ py: 3 }}>
-      <Card>
-        <CardHeader title={<Typography>{`Step ${active} of ${steps.length}`}</Typography>} />
-        <Divider />
-        <CardContent>
-          <Form onSubmit={onSubmit} methods={methods}>
+    <material.Container maxWidth="md" sx={{ py: 3 }}>
+      <material.Card>
+        <material.CardHeader
+          title={<material.Typography>{`Step ${active} of ${steps.length}`}</material.Typography>}
+        />
+        <Form onSubmit={onSubmit} methods={methods}>
+          <material.Stepper activeStep={active}>
+            {steps.map((step, index) => {
+              const labelProps: {
+                optional?: react.ReactNode;
+                error?: boolean;
+              } = {};
+              if (isStepFailed(index)) {
+                labelProps.optional = (
+                  <material.Typography variant="caption" color="error">
+                    {error}
+                  </material.Typography>
+                );
+              }
+              return (
+                <material.Step key={step.id}>
+                  <material.StepLabel>{step.label}</material.StepLabel>
+                </material.Step>
+              );
+            })}
+          </material.Stepper>
+          <material.Divider />
+          <material.CardContent>
             <StepBody questions={questionMap} questionIds={steps[active].questionIds} />
-          </Form>
-        </CardContent>
-        <CardActions>
-          <Stack direction="row">
-            <Button type="button" variant="soft" onClick={onBack} disabled={active === 0}>
-              Back
-            </Button>
-            {active < steps.length - 1 ? (
-              <Button type="button" variant="contained" onClick={onNext}>
-                Next
-              </Button>
-            ) : (
-              <Button variant="contained" onClick={onSubmit}>
-                Submit
-              </Button>
-            )}
-          </Stack>
-        </CardActions>
-      </Card>
-    </Container>
+          </material.CardContent>
+          <material.CardActions>
+            <material.Stack direction="row">
+              {active === steps.length ? (
+                <react.Fragment>
+                  <material.Typography sx={{ mt: 2, mb: 1 }}>
+                    All steps completed - you&apos;re finished
+                  </material.Typography>
+                  <material.Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                    <material.Box sx={{ flex: '1 1 auto' }} />
+                    <material.Button variant="soft" onClick={() => onReset()}>
+                      Reset
+                    </material.Button>
+                    <material.Button variant="contained" onClick={onSubmit}>
+                      Submit
+                    </material.Button>
+                  </material.Box>
+                </react.Fragment>
+              ) : (
+                <react.Fragment>
+                  <material.Typography sx={{ mt: 2, mb: 1 }}>Step {active + 1}</material.Typography>
+                  <material.Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                    <material.Button
+                      color="inherit"
+                      variant="soft"
+                      disabled={active === 0}
+                      onClick={onBack}
+                      sx={{ mr: 1 }}
+                    >
+                      Back
+                    </material.Button>
+                    <material.Box sx={{ flex: '1 1 auto' }} />
+                    <material.Button onClick={onNext} variant="contained">
+                      {active === steps.length - 1 ? 'Finish' : 'Next'}
+                    </material.Button>
+                  </material.Box>
+                </react.Fragment>
+              )}
+            </material.Stack>
+          </material.CardActions>
+        </Form>
+      </material.Card>
+    </material.Container>
   );
 }

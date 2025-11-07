@@ -1,3 +1,12 @@
+import { Button } from '@mui/material';
+
+import { useRouter } from 'src/routes/hooks';
+
 export function SurveyLauncher() {
-  return <div>1</div>;
+  const router = useRouter();
+  return (
+    <Button variant="soft" onClick={() => router.push('/survey')}>
+      Take Our Survey
+    </Button>
+  );
 }
