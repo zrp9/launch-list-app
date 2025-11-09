@@ -13,7 +13,6 @@ import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { POST_SORT_OPTIONS } from 'src/_mock';
-import { useGetPosts } from 'src/actions/blog';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Label } from 'src/components/label';
@@ -27,6 +26,11 @@ import { PostListHorizontal } from '../post-list-horizontal';
 // ----------------------------------------------------------------------
 
 export function PostListView() {
+  type pl = { posts: IPostItem[]; postsLoading: boolean };
+  const useGetPosts = (): pl => ({
+    posts: [],
+    postsLoading: false,
+  });
   const { posts, postsLoading } = useGetPosts();
 
   const [sortBy, setSortBy] = useState('latest');

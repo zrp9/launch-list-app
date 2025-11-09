@@ -36,7 +36,6 @@ export const mainRoutes: RouteObject[] = [
         ),
         children: [
           { path: 'contact-us', element: <ContactPage /> },
-          { path: 'coming-soon', element: <ComingSoonPage /> },
           { path: 'about-us', element: <AboutPage /> },
           { path: 'features', element: <FeaturePage /> },
           { path: 'survey', element: <SurveyPage /> },

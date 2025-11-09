@@ -1,6 +1,5 @@
-import z from 'zod'
+import z from 'zod';
 
-export type SurveySchema = z.object({
-  'question': z.string()
-})
-
+export const SurveySchema = z.object({
+  question: z.string(),
+});

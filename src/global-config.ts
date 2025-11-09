@@ -1,4 +1,4 @@
-import { paths } from 'src/routes/paths';
+import { paths, ROOTS } from 'src/routes/paths';
 
 import packageJson from '../package.json';
 
@@ -46,7 +46,7 @@ export const CONFIG: ConfigValue = {
     skip: true,
     //redirectPath: paths.dashboard.root,
     // right now when going to / will be redirect to coming-soon
-    redirectPath: paths.root,
+    redirectPath: ROOTS.Main,
   },
   /**
    * Mapbox

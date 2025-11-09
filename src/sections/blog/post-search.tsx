@@ -17,8 +17,6 @@ import Autocomplete, { autocompleteClasses, createFilterOptions } from '@mui/mat
 import { useRouter } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
-import { useSearchPosts } from 'src/actions/blog';
-
 import { Iconify } from 'src/components/iconify';
 import { SearchNotFound } from 'src/components/search-not-found';
 
@@ -36,6 +34,10 @@ export function PostSearch({ redirectPath, sx }: Props) {
   const [selectedItem, setSelectedItem] = useState<IPostItem | null>(null);
 
   const debouncedQuery = useDebounce(searchQuery);
+  const useSearchPosts = (a: any) => ({
+    searchResults: [],
+    searchLoading: false,
+  });
   const { searchResults: options, searchLoading: loading } = useSearchPosts(debouncedQuery);
 
   const handleChange = useCallback(

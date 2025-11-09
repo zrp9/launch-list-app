@@ -13,7 +13,9 @@ type ReferLinkResponse = {
   curPosition: number;
 };
 
-export async function subscribeUser(usr: User) {
+// TODO: this will only need the user firstname/lastname/email
+// will have to update the backend
+export async function subscribeUser(usr: Partial<User>) {
   const url = `${endpoints.user.subscribe}`;
   const { data } = await axiosInstance.post<UserResponse>(url, usr);
   return data;

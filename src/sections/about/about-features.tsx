@@ -133,7 +133,7 @@ function FeatureCard({ feature, index }: FeatureCardProps) {
           borderRadius: 3,
           position: 'absolute',
           transform: 'rotate(40deg)',
-          background: `linear-gradient(to right, ${theme.vars.palette['warning'].main}, transparent)`,
+          background: `linear-gradient(to right, ${theme.vars.palette.primary.main}, transparent)`,
         })}
       />
 
